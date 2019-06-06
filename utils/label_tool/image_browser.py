@@ -14,7 +14,6 @@ def init(dir_path):
     _dir_path = dir_path
     file_list = os.listdir(_dir_path)
     _image_list = filter(lambda x: x.endswith('jpg'), file_list)
-    # print(_image_list)
     _image_list = list(_image_list)
     _image_list.sort()
     _get_image()
