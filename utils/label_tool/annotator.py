@@ -15,7 +15,7 @@ _LAST_KEY = ord('q')
 _class_map = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '`': -1}
 
 
-def draw():
+def imshow():
     image = ib.current_image.copy()
     cv2.imshow(WINDOW_NAME, image)
 
@@ -49,14 +49,11 @@ if __name__ == "__main__":
     cv2.moveWindow(WINDOW_NAME, window_location[0], window_location[1])
 
     while True:
-        draw()
+        imshow()
         key = cv2.waitKey(0)
-        print(key)
         if chr(key) in _class_map.keys():
-           # cv2.
-            pass
+            print(chr(key))
         elif key in func_map.keys():
-            print(11111)
             func_map[key]()
 
 
