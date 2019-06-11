@@ -51,7 +51,7 @@ def new_frame(key):
 
 
 if __name__ == "__main__":
-    file_dir = 'data/anno_test'
+    file_dir = 'data/dataaft'
     ib.init(file_dir)
 
     json_path = os.path.join(file_dir, 'annotation.json')

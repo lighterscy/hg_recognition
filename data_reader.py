@@ -1,27 +1,35 @@
 from scipy.io import loadmat
 import numpy as np
 import cv2
+import os
 
 
-# mat = loadmat('data/1sb_data1.mat')
-#
-# data = mat["SpecAll"]
-# data = (data - np.min(data))/(np.max(data)-np.min(data))
-
-mat = loadmat('data/3.mat')
-print(mat)
-data = mat["f_t_data_abs"]
-print(np.shape(data))
-data = (data - np.min(data))/(np.max(data)-np.min(data))
-cv2.imshow("data", data)
-cv2.waitKey(0)
+"""
+1 上 2 下 3 上下 4 下上 5 左右
+"""
 
 
-# mat2 = loadmat('data/1.mat')
-# print(mat2)
-# data = mat2["f_t_data_abs"]
-#
-# cv2.imshow("data", data)
-# cv2.waitKey(0)
+def mat2img(mat_path, save_path, name):
+    mat = loadmat(mat_path)
+    data = mat["SpecAll"]
+    data = (data - np.min(data))/(np.max(data)-np.min(data))
+    data *= 255
+    cv2.imwrite(save_path+'/'+str(name)+'.jpg', data)
+
+
+if __name__ == "__main__":
+    counter = 1
+    save_path = 'data/dataaft'
+    mat_path = 'data/dataori'
+    dir_files = os.listdir(mat_path)
+    for i in dir_files:
+        file_path = os.path.join(mat_path, i)
+
+        dir_mat = os.listdir(file_path)
+        for j in dir_mat:
+            if j[-3:] == 'mat':
+                single_path = os.path.join(file_path, j)
+                mat2img(single_path, save_path, counter)
+                counter += 1
 
 
