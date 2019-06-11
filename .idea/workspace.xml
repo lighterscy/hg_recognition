@@ -283,11 +283,19 @@
       <option name="MODULE_MODE" value="false" />
     </configuration>
     <list>
+<<<<<<< Updated upstream
       <item itemvalue="Python.annotator" />
       <item itemvalue="Python.temptest" />
       <item itemvalue="Python.annotator (1)" />
       <item itemvalue="Python.dataloader" />
       <item itemvalue="Python.patch" />
+=======
+      <item itemvalue="Python.1d_cnn" />
+      <item itemvalue="Python.2d_cnn" />
+      <item itemvalue="Python.annotator (1)" />
+      <item itemvalue="Python.annotator" />
+      <item itemvalue="Python.temptest" />
+>>>>>>> Stashed changes
     </list>
     <recent_temporary>
       <list>
