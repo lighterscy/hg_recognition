@@ -5,6 +5,7 @@ import torch.utils.data as data
 import json
 import cv2
 import random
+import numpy as np
 # from utils import *
 
 
@@ -45,36 +46,24 @@ class PoolDataset(data.Dataset):
         self.label_path = label_path
 
     def __getitem__(self, index):
-        name = 'sample.json'
+        name = 'annotation.json'
         dict_path = os.path.join(self.label_path, name)
         f = open(dict_path, 'r')
         json_string = f.read()
         f.close()
         dict_all = json.loads(json_string)
-        # print(dict_all['frame_dict'])
         self.length = dict_all['frame_number']
 
         dict_all_change = {}
         for image_id, image_label in dict_all['frame_dict'].items():
             # print(image_id, image_label)
-            one_image_ball = []
-            for ball_label in image_label:
-                ball = PatchInFrame(ball_label['number'], ball_label['pos'])
-                one_image_ball.append([ball.type, ball.pos[0], ball.pos[1]])
-            # print(one_image_ball)
-            while len(one_image_ball)< 9:
-                one_image_ball.append([-1, -1, -1])
-            dict_all_change[image_id] = one_image_ball
-
-        # print(dict_all_change)
+            dict_all_change[image_id] = image_label
 
         image_number = list(dict_all['frame_dict'].keys())[index]  # 单局编号
-        # print(image_number)
         label = dict_all_change[image_number]
-        # print(label)
+
         img = cv2.imread(os.path.join(self.img_path, image_number + '.jpg'))  # 对应图像
-        # print(np.shape(img))
-        label = torch.Tensor(label)
+        label = torch.Tensor([label])
         img_tensor = transformImgToTensor(img)
 
         return img_tensor, label
@@ -107,18 +96,17 @@ def generate_train_val_sampler(total_train_size, train_ratio):
     return train_sampler, val_sampler
 
 
-label_path = 'data/labels'  # 标记路径
-name = 'sample.json'
+label_path = 'data/train/label'  # 标记路径
+name = 'annotation.json'
 path = os.path.join(label_path, name)
 
-img_path = 'data/image'  # 图像路径
+img_path = 'data/train/images'  # 图像路径
 
 if __name__ == '__main__':
 
     trainset = PoolDataset(img_path, label_path)
-    i = 0
+
     for img, label in trainset:
-        # print(trainset.length)
         print(label)
         pass
 
