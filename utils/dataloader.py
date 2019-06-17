@@ -5,8 +5,6 @@ import torch.utils.data as data
 import json
 import cv2
 import random
-import numpy as np
-# from utils import *
 
 
 def transformImgToTensor(img):
