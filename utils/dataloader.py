@@ -36,7 +36,7 @@ class PatchInFrame(object):
         return self.__dict__
 
 
-class PoolDataset(data.Dataset):
+class HgDataset(data.Dataset):
     def __init__(self, img_path, label_path):
 
         self.length = len([name for name in os.listdir(img_path) if os.path.isfile(os.path.join(img_path, name))])
@@ -102,7 +102,7 @@ img_path = 'data/train/images'  # 图像路径
 
 if __name__ == '__main__':
 
-    trainset = PoolDataset(img_path, label_path)
+    trainset = HgDataset(img_path, label_path)
 
     for img, label in trainset:
         print(label)

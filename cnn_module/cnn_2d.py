@@ -9,7 +9,7 @@ class ClassificationNet(nn.Module):
     hand gesture classificatioin module with 2-d cnn
 
     """
-    def __init__(self, output_num):
+    def __init__(self, output_num=5):
         super(ClassificationNet, self).__init__()
 
         self.feature_extract_module = _FeatureExtract(BasicBlock)
