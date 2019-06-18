@@ -14,9 +14,10 @@ class ClassificationNet(nn.Module):
 
         self.feature_extract_module = _FeatureExtract(BasicBlock)
 
-        self.classification_module = nn.Sequential(nn.Linear(32*9*9, 128),
+        self.classification_module = nn.Sequential(nn.Linear(32*16*13, 128),
                                                    nn.ReLU(inplace=True),
                                                    nn.Linear(128, output_num))
+        # TODO: 修改FC 参数太多
 
     def forward(self, x):
         feature_out = self.feature_extract_module(x)
@@ -36,9 +37,9 @@ class _FeatureExtract(nn.Module):
     def __init__(self, block):
         super(_FeatureExtract, self).__init__()
         self.block = block
-        self.layer1 = self._make_layer(1, 4, 3)
-        self.layer2 = self._make_layer(4, 8, 3)
-        self.layer3 = self._make_layer(8, 32, 3)
+        self.layer1 = self._make_layer(3, 8, 3)
+        self.layer2 = self._make_layer(8, 16, 3)
+        self.layer3 = self._make_layer(16, 32, 3)
 
     def _make_layer(self, in_channels, out_channels, filter_size):
         layers = [self.block(in_channels, out_channels, filter_size)]
@@ -71,7 +72,7 @@ class BasicBlock(nn.Module):
 
 if __name__ == "__main__":
     net = ClassificationNet(5)
-    input = Variable(torch.zeros(1, 1, 100, 100))
+    input = Variable(torch.zeros(1, 3, 155, 128))
     out = net(input)
     print(np.shape(out))
 

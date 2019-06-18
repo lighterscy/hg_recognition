@@ -4,6 +4,7 @@ from torch.autograd import Variable
 import torch.optim as optim
 import matplotlib.pyplot as plt
 from utils.dataloader import *
+from utils.utils import *
 from cnn_module.cnn_2d import ClassificationNet
 import numpy as np
 
@@ -12,6 +13,7 @@ USE_GPU = 0
 CUDA_NUM = 0
 BATCH_SIZE = 1
 EPOCH_TIMES = 5
+CLASS_NUM = 5
 
 WEIGHTS_NAME = 'data/weights/ClassificationNet' \
                + '_epoch_times_' + str(EPOCH_TIMES) \
@@ -24,7 +26,7 @@ if __name__ == "__main__":
     data_set = HgDataset(img_path, label_path)
     train_loader = data.DataLoader(data_set, batch_size=BATCH_SIZE, shuffle=True, num_workers=2)
 
-    net = ClassificationNet()
+    net = ClassificationNet(CLASS_NUM)
     if USE_GPU:
         net.cuda(CUDA_NUM)
 
@@ -40,18 +42,22 @@ if __name__ == "__main__":
         for i, data in enumerate(train_loader):
             net.train()
             print("training batch#", i, ", epoch#", epoch)
+
+            # data prepare
             img, label = data
-
-            # TODO: 对label进行转换
-
+            label = label_transform(label, CLASS_NUM)
             img, label = Variable(img), Variable(label)
             if USE_GPU:
                 img, label = img.cuda(CUDA_NUM), label.cuda(CUDA_NUM)
+
             optimizer.zero_grad()
             class_out = net(img)
-            class_loss = class_loss_layer(label, class_out)
+            print(class_out)
+            print(label)
+            class_loss = class_loss_layer(class_out, label)
             loss_train = class_loss
             loss_train.backward()
+            scheduler.step()
             optimizer.step()
 
 
