@@ -12,7 +12,7 @@ import numpy as np
 USE_GPU = 0
 CUDA_NUM = 0
 BATCH_SIZE = 1
-EPOCH_TIMES = 5
+EPOCH_TIMES = 20
 CLASS_NUM = 5
 
 WEIGHTS_NAME = 'data/weights/ClassificationNet' \
@@ -31,7 +31,7 @@ if __name__ == "__main__":
         net.cuda(CUDA_NUM)
 
     class_loss_layer = nn.CrossEntropyLoss()
-
+    loss_train_list = []
     lr = 0.001
     optimizer = optim.SGD([param for param in net.parameters() if param.requires_grad is True], lr)
     scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=80, gamma=0.5)
@@ -52,16 +52,18 @@ if __name__ == "__main__":
 
             optimizer.zero_grad()
             class_out = net(img)
-            print(class_out)
-            print(label)
             class_loss = class_loss_layer(class_out, label)
             loss_train = class_loss
             loss_train.backward()
             scheduler.step()
             optimizer.step()
 
+            print("batch loss:", loss_train.item())
+            loss_train_epoch += loss_train.item()
 
-
+        loss_train_epoch = loss_train_epoch / len(data_set) * BATCH_SIZE
+        loss_train_list.append(loss_train_epoch)
+        print("training loss is ", loss_train_epoch, "for epoch #", epoch)
 
 
 
