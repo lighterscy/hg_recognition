@@ -11,7 +11,7 @@ import numpy as np
 
 USE_GPU = 0
 CUDA_NUM = 0
-BATCH_SIZE = 1
+BATCH_SIZE = 5
 EPOCH_TIMES = 20
 CLASS_NUM = 5
 

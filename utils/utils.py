@@ -30,8 +30,5 @@ def generate_train_val_sampler(total_train_size, train_ratio):
 def label_transform(label, class_num):
     class_batch = torch.LongTensor(label.shape[0])  # 直接用torch.tensor默认为float, 但交叉熵默认需要输入long格式
     for i in range(label.shape[0]):
-        # class_tensor = torch.zeros(class_num)
-        # class_tensor[int(label[i])-1] = 1
-        class_batch[i] = label
-
+        class_batch[i] = label[i]
     return class_batch
