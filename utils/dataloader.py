@@ -57,7 +57,7 @@ class HgDataset(data.Dataset):
             dict_all_change[image_id] = image_label
 
         image_number = list(dict_all['frame_dict'].keys())[index]  # 单局编号
-        label = dict_all_change[image_number]
+        label = dict_all_change[image_number]-1
 
         img = cv2.imread(os.path.join(self.img_path, image_number + '.jpg'))  # 对应图像
         label = torch.Tensor([label])
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     trainset = HgDataset(img_path, label_path)
 
     for img, label in trainset:
-        print(label)
+        print(img)
         pass
 
 

@@ -24,11 +24,11 @@ if __name__ == "__main__":
     dir_files = os.listdir(mat_path)
     for i in dir_files:
         file_path = os.path.join(mat_path, i)
-
         dir_mat = os.listdir(file_path)
         for j in dir_mat:
             if j[-3:] == 'mat':
                 single_path = os.path.join(file_path, j)
+                print(single_path)
                 mat2img(single_path, save_path, counter)
                 counter += 1
 
